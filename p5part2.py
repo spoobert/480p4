@@ -59,7 +59,7 @@ def feature( img ): #input NxM image(2d aray [N][M]) x, output length 6 feature 
     
 class MultiPerceptron:
     def __init__(self):
-        self.W = [ [random.uniform( 0.-1, 0.1 ),random.uniform( 0.-1, 0.1 ),random.uniform( 0.-1, 0.1 ),random.uniform( 0.-1, 0.1 ),random.uniform( 0.-1, 0.1 ),random.uniform( 0.-1, 0.1 ),random.uniform( 0.-1, 0.1 )],
+        self.W = np.array( [ [random.uniform( 0.-1, 0.1 ),random.uniform( 0.-1, 0.1 ),random.uniform( 0.-1, 0.1 ),random.uniform( 0.-1, 0.1 ),random.uniform( 0.-1, 0.1 ),random.uniform( 0.-1, 0.1 ),random.uniform( 0.-1, 0.1 )],
                     [random.uniform( 0.-1, 0.1 ),random.uniform( 0.-1, 0.1 ),random.uniform( 0.-1, 0.1 ),random.uniform( 0.-1, 0.1 ),random.uniform( 0.-1, 0.1 ),random.uniform( 0.-1, 0.1 ),random.uniform( 0.-1, 0.1 )],
                     [random.uniform( 0.-1, 0.1 ),random.uniform( 0.-1, 0.1 ),random.uniform( 0.-1, 0.1 ),random.uniform( 0.-1, 0.1 ),random.uniform( 0.-1, 0.1 ),random.uniform( 0.-1, 0.1 ),random.uniform( 0.-1, 0.1 )],
                     [random.uniform( 0.-1, 0.1 ),random.uniform( 0.-1, 0.1 ),random.uniform( 0.-1, 0.1 ),random.uniform( 0.-1, 0.1 ),random.uniform( 0.-1, 0.1 ),random.uniform( 0.-1, 0.1 ),random.uniform( 0.-1, 0.1 )],
@@ -68,12 +68,15 @@ class MultiPerceptron:
                     [random.uniform( 0.-1, 0.1 ),random.uniform( 0.-1, 0.1 ),random.uniform( 0.-1, 0.1 ),random.uniform( 0.-1, 0.1 ),random.uniform( 0.-1, 0.1 ),random.uniform( 0.-1, 0.1 ),random.uniform( 0.-1, 0.1 )],
                     [random.uniform( 0.-1, 0.1 ),random.uniform( 0.-1, 0.1 ),random.uniform( 0.-1, 0.1 ),random.uniform( 0.-1, 0.1 ),random.uniform( 0.-1, 0.1 ),random.uniform( 0.-1, 0.1 ),random.uniform( 0.-1, 0.1 )],
                     [random.uniform( 0.-1, 0.1 ),random.uniform( 0.-1, 0.1 ),random.uniform( 0.-1, 0.1 ),random.uniform( 0.-1, 0.1 ),random.uniform( 0.-1, 0.1 ),random.uniform( 0.-1, 0.1 ),random.uniform( 0.-1, 0.1 )],
-                    [random.uniform( 0.-1, 0.1 ),random.uniform( 0.-1, 0.1 ),random.uniform( 0.-1, 0.1 ),random.uniform( 0.-1, 0.1 ),random.uniform( 0.-1, 0.1 ),random.uniform( 0.-1, 0.1 ),random.uniform( 0.-1, 0.1 )] ] 
+                    [random.uniform( 0.-1, 0.1 ),random.uniform( 0.-1, 0.1 ),random.uniform( 0.-1, 0.1 ),random.uniform( 0.-1, 0.1 ),random.uniform( 0.-1, 0.1 ),random.uniform( 0.-1, 0.1 ),random.uniform( 0.-1, 0.1 )] ] )
     def pTrain(self, inp, L, O, n ): #where L is the label[0,9], O is the label the neuron guessed, inp is the input, n is eta
-        for a in range(len(self.W[L])):
+        print(O)
+        for a in range(7):
             self.W[L][a] = self.W[L][a] + n*inp[a]
-        for a in range(len(self.W[L])):
+        for a in range(7):
             self.W[O][a] = self.W[O][a] - n*inp[a]
+    
+    #TODO make this function work with numpy
     def pProcess(self, x):
         tomp = [ sum(  x[b]*self.W[a][b] for b in range( len( self.W[a] ) ) ) for a in range( len( self.W ) ) ]
         #for a in range(len(self.W)):
@@ -81,40 +84,13 @@ class MultiPerceptron:
             #for b in range(len(self.W[a])):
             #    temp += x[b]*self.W[a][b]
         #    tomp.append(temp)
-        return tomp.index(max(tomp))
-    
+        dotProd = 0
+        for WRow in self.W:
+            dotProd += np.dot( x, WRow )
+        return dotProd
+
     def getWeights(self):
         return self.W
-
-
-class neuron:
-    def __init__(self): #correct
-        imin = -0.1
-        imax = 0.1
-        
-        #TODO need chance to be negative -.1 to .1 
-        self.Warr = np.array( [ random.uniform( 0.-1, 0.1 ), random.uniform( 0.-1, 0.1 ), random.uniform( 0.-1, 0.1 ), random.uniform( 0.-1, 0.1 ), random.uniform( 0.-1, 0.1 ), random.uniform( 0.-1, 0.1 ), random.uniform( 0.-1, 0.1 )] )
-    
-    def Process(self, x): #correct, x will become the classifiers for any given image
-        '''
-        res = []
-        for a in range(len(x)):
-            res.append(x[a]*self.Warr[a])
-        r = sum(res)
-        '''
-        try:
-            r = np.dot( x, self.Warr )
-        except:
-            print(x)
-        if(r > 0):
-            return 1
-        return 0
-
-    def Correct(self, n, x, y, f): #n = eta, x = input, y = output from process
-        for i in range(7):
-            self.Warr[i] = self.Warr[i] - n*(y-f)*x[i]
-
-
 
 
 

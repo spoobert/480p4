@@ -22,37 +22,52 @@ testIm = mnistIm[200:250]
 testLa = mnistLa[200:250]
 zipImLab = zip(trainIm,trainLa)
 testImLab = zip(testIm,testLa)
-trainSet = [ (t[0],t[1]) for t in zipImLab ]#if t[1] == 7 or t[1] == 9 ]
-testSet = [ (t[0],t[1]) for t in testImLab ]#if t[1] == 7 or t[1] == 9 ]
+#trainSet = [ (t[0],t[1]) for t in zipImLab ]#if t[1] == 7 or t[1] == 9 ]
+#testSet = [ (t[0],t[1]) for t in testImLab ]#if t[1] == 7 or t[1] == 9 ]
 
 #TODO uncomment below to test Part 2
-'''
-trainImgSet = [ [ t[0] for t in zipImLab if t[1] == 0 ],
- [ t[0] for t in zipImLab if t[1] == 1 ],
- [ t[0] for t in zipImLab if t[1] == 2 ],
- [ t[0] for t in zipImLab if t[1] == 3 ],
- [ t[0] for t in zipImLab if t[1] == 4 ],
- [ t[0] for t in zipImLab if t[1] == 5 ],
- [ t[0] for t in zipImLab if t[1] == 6 ],
- [ t[0] for t in zipImLab if t[1] == 7 ],
- [ t[0] for t in zipImLab if t[1] == 8 ],
- [ t[0] for t in zipImLab if t[1] == 9 ] ]
-
-testImgSet = [ [ t[0] for t in zipImLab if t[1] == 0 ],
- [ t[0] for t in zipImLab if t[1] == 1 ],
- [ t[0] for t in zipImLab if t[1] == 2 ],
- [ t[0] for t in zipImLab if t[1] == 3 ],
- [ t[0] for t in zipImLab if t[1] == 4 ],
- [ t[0] for t in zipImLab if t[1] == 5 ],
- [ t[0] for t in zipImLab if t[1] == 6 ],
- [ t[0] for t in zipImLab if t[1] == 7 ],
- [ t[0] for t in zipImLab if t[1] == 8 ],
- [ t[0] for t in zipImLab if t[1] == 9 ] ]
-'''
-
-
-
-
+train0 =  [ t[0] for t in zipImLab if t[1] == 0 ] 
+train1 =  [ t[0] for t in zipImLab if t[1] == 1 ] 
+train2 =  [ t[0] for t in zipImLab if t[1] == 2 ] 
+train3 =  [ t[0] for t in zipImLab if t[1] == 3 ] 
+train4 =  [ t[0] for t in zipImLab if t[1] == 4 ] 
+train5 =  [ t[0] for t in zipImLab if t[1] == 5 ] 
+train6 =  [ t[0] for t in zipImLab if t[1] == 6 ] 
+train7 =  [ t[0] for t in zipImLab if t[1] == 7 ] 
+train8 =  [ t[0] for t in zipImLab if t[1] == 8 ] 
+train9 =  [ t[0] for t in zipImLab if t[1] == 9 ] 
+trainImgSet = []
+trainImgSet.append(train0)
+trainImgSet.append(train1)
+trainImgSet.append(train2)
+trainImgSet.append(train3)
+trainImgSet.append(train4)
+trainImgSet.append(train5)
+trainImgSet.append(train6)
+trainImgSet.append(train7)
+trainImgSet.append(train8)
+trainImgSet.append(train9)
+test0 =  [ t[0] for t in testImLab if t[1] == 0 ] 
+test1 =  [ t[0] for t in testImLab if t[1] == 1 ] 
+test2 =  [ t[0] for t in testImLab if t[1] == 2 ] 
+test3 =  [ t[0] for t in testImLab if t[1] == 3 ] 
+test4 =  [ t[0] for t in testImLab if t[1] == 4 ] 
+test5 =  [ t[0] for t in testImLab if t[1] == 5 ] 
+test6 =  [ t[0] for t in testImLab if t[1] == 6 ] 
+test7 =  [ t[0] for t in testImLab if t[1] == 7 ] 
+test8 =  [ t[0] for t in testImLab if t[1] == 8 ] 
+test9 =  [ t[0] for t in testImLab if t[1] == 9 ] 
+testImgSet = []
+testImgSet.append(test0)
+testImgSet.append(test1)
+testImgSet.append(test2)
+testImgSet.append(test3)
+testImgSet.append(test4)
+testImgSet.append(test5)
+testImgSet.append(test6)
+testImgSet.append(test7)
+testImgSet.append(test8)
+testImgSet.append(test9)
         
 
 def main():
@@ -96,9 +111,10 @@ def main():
         bestNeuron = 0
         testError = 1
         Mij = [ [0]*10 ]*10
-        trainImgSet = []
-        testImgSet = []
+        #trainImgSet = []
+        #testImgSet = []
         trainedNeuron2 = MultiPerceptron()
+        '''
         for i in range(10):
                 trainImgSet.append( read_idx(f'train{i}') )
         for i in range(10):
@@ -106,6 +122,11 @@ def main():
         for i in range(10):
                 for trainImg in trainImgSet[i]:
                         trainedNeuron2 = Project5bitPart2( trainImg, i )
+        '''
+        for i in range(10):
+                trainedNeuron2 = Project5bitPart2( trainImgSet[i], i )
+
+
         for i in range(10):
                 for testImg in testImgSet[i]:
                         res = trainedNeuron2.pProcess( testImg )
