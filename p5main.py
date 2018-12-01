@@ -80,7 +80,8 @@ def main():
         test9 = read_idx('test9')
         '''
         #Part 1 Follows
-        #TODO define realTest and realTrain for part 1
+        realTrain = np.concatenate(train7,train9)        
+        realTest = np.concatenate(test7,test9)
         Perceptron = 0
         Bepoch = 0
         eta = 0.1
@@ -272,7 +273,7 @@ def main():
         print(best)
         '''
         #FINAL PART!!!!
-        #TODO input image parsing
+        #TODO input image parsing assuming what I have doesn't work
         s = input('please input the filename of the image file (without extension):\n')
         #img = s.open()
         img = read_idx(s)
