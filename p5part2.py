@@ -68,7 +68,7 @@ class MultiPerceptron:
                     [random.uniform( 0.-1, 0.1 ),random.uniform( 0.-1, 0.1 ),random.uniform( 0.-1, 0.1 ),random.uniform( 0.-1, 0.1 ),random.uniform( 0.-1, 0.1 ),random.uniform( 0.-1, 0.1 ),random.uniform( 0.-1, 0.1 )],
                     [random.uniform( 0.-1, 0.1 ),random.uniform( 0.-1, 0.1 ),random.uniform( 0.-1, 0.1 ),random.uniform( 0.-1, 0.1 ),random.uniform( 0.-1, 0.1 ),random.uniform( 0.-1, 0.1 ),random.uniform( 0.-1, 0.1 )] ] )
     def pTrain(self, inp, L, O, n ): #where L is the label[0,9], O is the label the neuron guessed, inp is the input, n is eta
-        print(O)
+        
         for a in range(7):
             self.W[L][a] = self.W[L][a] + n*inp[a]
         for a in range(7):
@@ -84,7 +84,7 @@ class MultiPerceptron:
         #    tomp.append(temp)
         dotProd = []
         for WRow in self.W:
-            dotProd += np.dot( x, WRow )
+            dotProd.append(np.dot( x, WRow ))
         return np.argmax(dotProd)
 
     def getWeights(self):
