@@ -29,8 +29,7 @@ def feature( img ): #input NxM image(2d aray [N][M]) x, output length 6 feature 
     for i in range(N): #find number of changes between 0 and 1, for columns
         p = BW[i][0]
         count = 0
-        #TODO off by one error?
-        for j in range(M): #Column Major
+        for j in range(1, M): #Column Major
             if(p != BW[i][j]):
                 count += 1
                 p =BW[i][j]
@@ -39,8 +38,7 @@ def feature( img ): #input NxM image(2d aray [N][M]) x, output length 6 feature 
     for j in range(M): #find number of changes between 0 and 1, for rows
         p = BW[0][j]
         count = 0
-        #TODO off by one?
-        for i in range(N): #Row Major
+        for i in range(1, N): #Row Major
             if(p != BW[i][j]):
                 count += 1
                 p =BW[i][j]
@@ -54,7 +52,7 @@ def feature( img ): #input NxM image(2d aray [N][M]) x, output length 6 feature 
     # 6)
     aveInterVert = sum(Rows)/M#len(Rows)
     return np.array( [-1,Density, measureOfSym, maxInterHoriz, aveInterHoriz, maxInterVert, aveInterVert] )    
-    #order: [Density, Degree/Measure of Symettry, maximum horizontal intersections, average horizntal intersections, maximum vertical intersections, average vertical intersections]
+    #order: [bias, Density, Degree/Measure of Symettry, maximum horizontal intersections, average horizntal intersections, maximum vertical intersections, average vertical intersections]
 
     
 class MultiPerceptron:
@@ -78,30 +76,30 @@ class MultiPerceptron:
     
     #TODO make this function work with numpy
     def pProcess(self, x):
-        tomp = [ sum(  x[b]*self.W[a][b] for b in range( len( self.W[a] ) ) ) for a in range( len( self.W ) ) ]
+        #tomp = [ sum(  x[b]*self.W[a][b] for b in range( len( self.W[a] ) ) ) for a in range( len( self.W ) ) ]
         #for a in range(len(self.W)):
         #    temp = 
             #for b in range(len(self.W[a])):
             #    temp += x[b]*self.W[a][b]
         #    tomp.append(temp)
-        dotProd = 0
+        dotProd = []
         for WRow in self.W:
             dotProd += np.dot( x, WRow )
-        return dotProd
+        return np.argmax(dotProd)
 
     def getWeights(self):
         return self.W
 
 
 
-def Project5bitPart2( inputs, label ):
+def Project5bitPart2( inputs):
     eta = 0.1
     epochs = 1000
     per = MultiPerceptron()
     for i in range(epochs):
         for casey in inputs:
-            inV =  feature( casey )
+            inV =  feature( casey[0] )
             Out = per.pProcess( inV )
-            if(Out != label):
-                per.pTrain(inV, label, Out, eta)
+            if(Out != casey[1]):
+                per.pTrain(inV, casey[1], Out, eta)
     return per

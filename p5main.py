@@ -79,6 +79,36 @@ def main():
         train9 = read_idx('train9')
         test9 = read_idx('test9')
         '''
+        #Part 1 Follows
+        #TODO define realTest and realTrain for part 1
+        Perceptron = 0
+        Bepoch = 0
+        eta = 0.1
+        epochs = 1000
+        error = 1
+        neuro = neuron()
+        for i in range(epochs):
+            for case in realTrain:
+                inputVector = feature(case[0])
+                processed = neuro.Process(inputVector)
+                if( processed != case[1] ):
+                    neuro.Correct( eta, inputVector, processed, F( case[1] ) )
+            cogito = 0
+            alucarD = 0
+            for case in realTest:
+                Dracula += 1
+                inputVector = feature(case[0])
+                processed = neuro.Process(inputVector)
+                if( processed != case[1] ):
+                    cogito += 1
+            errorRate = cogito/alucarD
+            if(errorRate < error):
+                error = errorRate
+                Perceptron = neuro
+                Bepoch = i
+        print('least error Perceptron weights: ',Perceptron.Warr)
+        print('min error fraction: ', error )
+                
         #TODO use proper inputs for part 1 
         '''
         trainedNeuron = Project5bit( trainSet )
@@ -113,7 +143,45 @@ def main():
         Mij = [ [0]*10 ]*10
         #trainImgSet = []
         #testImgSet = []
-        trainedNeuron2 = MultiPerceptron()
+        #trainedNeuron2 = MultiPerceptron()
+
+
+        #llows VVVVVV
+        realTrain = zipImLab
+        #realTrain = np.concatenate(train0,train1,train2,train3,train4,train5,train6,train7,train8,train9)        
+        realTest = testImLab
+        #realTest = np.concatenate(test0,test1,test2,test3,test4,test5,test6,test7,test8,test9)
+        #trainedNeuron2 = Project5bitPart2( realTrain)
+        
+        Perceptron2 = MultiPerceptron()
+        eta = 0.1
+        epochs = 1000
+        error = 1
+        BestMultiPerceptron = 0
+        BMij = 0
+        for q in range(epochs):
+            for p in realTrain:
+                inV = feature(q[0])
+                Out = Perceptron2.pProcess(inV)
+                if(Out != q[1]):
+                    Perceptron2.pTrain(inV, q[1], Out, eta)
+            Mij = [ [0]*10 ]*10
+            for i in realTest:
+                inputVector = feature(i[0])
+                outty9000 = Perceptron2.pProcess(inputVector)
+                Mij[inputVector][outty9000] += 1
+            errorRate = 1-(np.dot(np.identity(10), Mij)/np.sum(Mij))
+            if(errorRate < error):
+                error = errorRate
+                BestMultiPerceptron = Perceptron2
+                BMij = Mij
+                
+            
+        print('least error Perceptron weights: ',BestMultiPerceptron.W)
+        print('min eror fraction: ', error )
+        print('confusion matrix: ', BMij)
+
+        
         '''
         for i in range(10):
                 trainImgSet.append( read_idx(f'train{i}') )
@@ -122,6 +190,7 @@ def main():
         for i in range(10):
                 for trainImg in trainImgSet[i]:
                         trainedNeuron2 = Project5bitPart2( trainImg, i )
+        '''
         '''
         for i in range(10):
                 trainedNeuron2 = Project5bitPart2( trainImgSet[i], i )
@@ -144,8 +213,45 @@ def main():
         print('least error Perceptron weights: ',bestNeuron.W)
         print('min eror fraction: ', testError )
         print('confusion matrix: ', Mij)
-
+        '''
         ##### BEGIN PART 3 ######
+        n = [3, 6, 10, 15, 21]
+        
+        #llows VVVVVV
+        eta = 0.1
+        epochs = 1000
+        Bepoch = Ben = BNN = BNMij = 0
+        Bearoar = 1
+        for p in n:
+            N = NNGuess(10, 50, p)
+            for e in range(epochs):
+                for casey in realTrain:
+                    inV = feature2(casey[0])
+                    N.Correct(inV,eta,p)
+                NMij = [ [0]*10 ]*10
+                for i in realTest:
+                    inputVector = feature2(i[0])
+                    outty9000 = N.process(inputVector)
+                    NMij[inputVector][outty9000] += 1
+                errorRate = 1-(np.dot(np.identity(10), NMij)/np.sum(NMij))
+                if(errorRate < Bearoar):
+                    Bearoar = errorRate
+                    Bepoch = e
+                    Ben = p
+                    BNN = N
+                    BNMij = NMij
+        print('# Hidden Layer Neurons: ', Ben)
+        print('epoch: ', Bepoch)
+        print('error rate: ', Bearoar)
+        print('the weights of every neuron:')
+        print('\tHidden Layer:')
+        for i in BNN.HLayer:
+            print(i)
+        print('\tOutput Layer:')
+        for i in BNN.OLayer:
+            print(i)
+
+            
         '''
         n = [3, 6, 10, 15, 21]
         best = (0, 0, 0)
@@ -165,6 +271,15 @@ def main():
                         best = (trainedNeuron, tempula, i)
         print(best)
         '''
+        #FINAL PART!!!!
+        #TODO input image parsing
+        s = input('please input the filename of the image file (without extension):\n')
+        #img = s.open()
+        img = read_idx(s)
+        t1 = BestMultiPerceptron.pProcess(feature(img))
+        t2 = BNN.process(feature2(img))
+        print("Perceptron's Guess: ", t1)
+        print("Neural-Network's Guess: ", t2)
 
 if __name__=="__main__":
         main()
